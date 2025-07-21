@@ -1,0 +1,26 @@
+# baseURL
+@baseURL = http://localhost:3000
+
+###
+# Find All Events
+GET {{ baseURL }}/events
+
+###
+# Find Event by Id
+GET {{ baseURL }}/events/6a6bc330-ef1f-4e42-8168-491650c60b78
+
+###
+# Create Event
+POST {{ baseURL }}/events
+Content-Type: application/json
+
+{
+    "name": "Marcha comemorativa dos 50 anos do TG 02-083",
+    "description": "Esse evento preza pela valorização do esporte e da família, vamos andar por Fernandópolis para comemorar o júbilo de ouro do Tiro de Guerra!",
+    "short_description": "Marcha de 5km para comemorar os 50 anos do Tiro de Guerra.",
+    "date": "2025-09-27T07:00:00",
+    "location": "Fernandópolis",
+    "address": "Rua Minas Gerais, 660, Centro, Fernandópolis - SP",
+    "price": 50,
+    "id_category": 6
+}
