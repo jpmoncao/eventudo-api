@@ -32,7 +32,7 @@ export class UserController {
       const userData: User = req.body;
       const createUserData: User = await this.user.createUser(userData);
 
-      res.status(201).json({ data: createUserData, message: 'created' });
+      res.status(201).json({ data: { id: createUserData.id, name: createUserData.name, lastName: createUserData.lastName }, message: 'created' });
     } catch (error) {
       next(error);
     }

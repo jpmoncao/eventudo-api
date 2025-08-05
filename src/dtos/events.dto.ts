@@ -17,7 +17,7 @@ export class CreateEventDto {
 
   @IsString()
   @MinLength(5)
-  @MaxLength(500) // descrição geralmente maior
+  @MaxLength(500)
   @IsNotEmpty()
   public description: string;
 

@@ -15,7 +15,7 @@ model category {
 }
 
 model event {
-  id                String          @id
+  id                String          @id @default(uuid())
   name              String
   description       String
   short_description String
@@ -25,10 +25,11 @@ model event {
   price             Decimal         @db.Decimal(10, 2)
   id_category       Int             @unique(map: "Event_id_category_key")
   createdAt         DateTime        @default(now())
-  updatedAt         DateTime
+  updatedAt         DateTime        @updatedAt
   category          category        @relation(fields: [id_category], references: [id], map: "Event_id_category_fkey")
   eventimages       eventimages[]
   eventpromotion    eventpromotion?
+  ticket            ticket?
 }
 
 model eventimages {
@@ -48,7 +49,46 @@ model eventpromotion {
 }
 
 model user {
-  id       Int    @id @default(autoincrement())
-  email    String @unique(map: "User_email_key")
-  password String
+  id        String   @id @default(uuid())
+  name      String
+  lastName  String
+  birthDate DateTime
+  cpf       String   @unique(map: "User_cpf_key")
+  phone     String   @unique(map: "User_phone_key")
+  address   String
+  city      String
+  state     String
+  zipCode   String
+  email     String   @unique(map: "User_email_key")
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ticket    ticket[]
+}
+
+model ticket {
+  id              String       @id @default(uuid())
+  isActive        Boolean
+  id_user         String       @unique(map: "Ticket_id_user_key")
+  id_event        String       @unique(map: "Ticket_id_event_key")
+  id_ticketholder Int          @unique(map: "Ticket_id_ticketholder_key")
+  event           event        @relation(fields: [id_event], references: [id], map: "Ticket_id_event_fkey")
+  ticketholder    ticketholder @relation(fields: [id_ticketholder], references: [id], map: "Ticket_id_ticketholder_fkey")
+  user            user         @relation(fields: [id_user], references: [id], map: "Ticket_id_user_fkey")
+}
+
+model ticketholder {
+  id        Int      @id @default(autoincrement())
+  name      String
+  lastName  String
+  birthDate DateTime
+  cpf       String   @unique(map: "User_cpf_key")
+  phone     String   @unique(map: "User_phone_key")
+  address   String
+  city      String
+  state     String
+  zipCode   String
+
+  id_ticket Int     @unique(map: "TicketHolder_id_ticket_key")
+  ticket    ticket?
 }

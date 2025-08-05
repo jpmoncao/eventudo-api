@@ -1,5 +1,16 @@
 export interface User {
-    id?: number;
-    email: string;
-    password: string;
-  }
+  id?: string;
+  email: string;
+  password: string;
+  name: string;
+  lastName: string;
+  birthDate: string;
+  cpf: string;
+  phone: string;
+  address: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}

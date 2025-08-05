@@ -10,7 +10,7 @@ export class EventService {
 
   public async findAllEvents(): Promise<Event[]> {
     const allEvent: Event[] = await this.event.findMany({
-      include: { images: true },
+      include: { eventimages: true },
       orderBy: { date: 'asc' },
       where: {
         date: {
@@ -23,7 +23,7 @@ export class EventService {
 
   public async findEventById(eventId: string): Promise<Event> {
     const event: Event = await this.event.findFirst({
-      include: { category: true, images: true, promotion: true },
+      include: { category: true, eventimages: true, eventpromotion: true },
       where: { id: eventId },
     });
 
@@ -31,13 +31,19 @@ export class EventService {
   }
 
   public async createEvent(eventData: CreateEventDto): Promise<Event> {
+    const { id_category, ...rest } = eventData;
+
     const event = await this.event.create({
       data: {
-        ...eventData,
+        ...rest,
         date: new Date(eventData.date),
+        category: {
+          connect: { id: id_category },
+        },
       },
     });
 
     return event;
   }
+
 }
