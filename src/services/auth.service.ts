@@ -26,7 +26,7 @@ export class AuthService {
     if (findUserWithDuplicateData) {
       if (findUserWithDuplicateData.email === userData.email)
         throw new HttpException(409, `This email "${userData.email}" already exists`);
-      
+
       else if (findUserWithDuplicateData.cpf === userData.cpf)
         throw new HttpException(409, `This cpf "${userData.cpf}" already exists`);
 
