@@ -11,7 +11,7 @@ export class EventController {
         try {
             const findAllEventsData: Event[] = await this.event.findAllEvents();
 
-            res.status(200).json({ data: findAllEventsData, message: 'findAll' });
+            res.status(200).json({ data: findAllEventsData, message: 'findAllEvents' });
         } catch (error) {
             next(error);
         }
@@ -22,11 +22,11 @@ export class EventController {
             const eventId = req.params.id ?? '';
 
             if (eventId.trim() === '')
-                throw new Error('Falta parâmetros');
+                throw new Error('missingParameters');
 
             const findEventByIdData: Event = await this.event.findEventById(eventId);
 
-            res.status(200).json({ data: findEventByIdData, message: 'findEventById' });
+            res.status(200).json({ data: findEventByIdData, message: 'findEvent' });
         } catch (error) {
             next(error);
         }
@@ -38,7 +38,7 @@ export class EventController {
 
             const createEventData: Event = await this.event.createEvent(eventData);
 
-            res.status(200).json({ data: createEventData, message: 'createEvent' });
+            res.status(200).json({ data: createEventData, message: 'createdEvent' });
         } catch (error) {
             next(error);
         }

@@ -10,7 +10,7 @@ export class UserController {
     try {
       const findAllUsersData: User[] = await this.user.findAllUser();
 
-      res.status(200).json({ data: findAllUsersData, message: 'findAll' });
+      res.status(200).json({ data: findAllUsersData, message: 'findAllUsers' });
     } catch (error) {
       next(error);
     }
@@ -18,10 +18,10 @@ export class UserController {
 
   public getUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const userId = Number(req.params.id);
+      const userId = req.params.id;
       const findOneUserData: User = await this.user.findUserById(userId);
 
-      res.status(200).json({ data: findOneUserData, message: 'findOne' });
+      res.status(200).json({ data: findOneUserData, message: 'findUser' });
     } catch (error) {
       next(error);
     }
@@ -32,7 +32,7 @@ export class UserController {
       const userData: User = req.body;
       const createUserData: User = await this.user.createUser(userData);
 
-      res.status(201).json({ data: { id: createUserData.id, name: createUserData.name, lastName: createUserData.lastName }, message: 'created' });
+      res.status(201).json({ data: { id: createUserData.id, name: createUserData.name, lastName: createUserData.lastName }, message: 'createdUser' });
     } catch (error) {
       next(error);
     }
@@ -40,11 +40,11 @@ export class UserController {
 
   public updateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const userId = Number(req.params.id);
+      const userId = req.params.id;
       const userData: User = req.body;
       const updateUserData: User = await this.user.updateUser(userId, userData);
 
-      res.status(200).json({ data: updateUserData, message: 'updated' });
+      res.status(200).json({ data: updateUserData, message: 'updatedUser' });
     } catch (error) {
       next(error);
     }
@@ -52,10 +52,10 @@ export class UserController {
 
   public deleteUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const userId = Number(req.params.id);
+      const userId = req.params.id;
       const deleteUserData: User = await this.user.deleteUser(userId);
 
-      res.status(200).json({ data: deleteUserData, message: 'deleted' });
+      res.status(200).json({ data: deleteUserData, message: 'deletedUser' });
     } catch (error) {
       next(error);
     }

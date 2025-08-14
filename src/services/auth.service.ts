@@ -25,13 +25,13 @@ export class AuthService {
 
     if (findUserWithDuplicateData) {
       if (findUserWithDuplicateData.email === userData.email)
-        throw new HttpException(409, `This email "${userData.email}" already exists`);
+        throw new HttpException(409, `emailAlreadyExists`);
 
       else if (findUserWithDuplicateData.cpf === userData.cpf)
-        throw new HttpException(409, `This cpf "${userData.cpf}" already exists`);
+        throw new HttpException(409, `cpfAlreadyExists`);
 
       else if (findUserWithDuplicateData.phone === userData.phone)
-        throw new HttpException(409, `This phone "${userData.phone}" already exists`);
+        throw new HttpException(409, `phoneAlreadyExists`);
     }
 
     const hashedPassword = await hash(userData.password, 10);
@@ -42,10 +42,10 @@ export class AuthService {
 
   public async login(userData: CreateUserDto): Promise<{ cookie: string; findUser: User }> {
     const findUser: User = await this.users.findUnique({ where: { email: userData.email } });
-    if (!findUser) throw new HttpException(409, `This email ${userData.email} was not found`);
+    if (!findUser) throw new HttpException(409, 'emailNotFound');
 
     const isPasswordMatching: boolean = await compare(userData.password, findUser.password);
-    if (!isPasswordMatching) throw new HttpException(409, "Password is not matching");
+    if (!isPasswordMatching) throw new HttpException(409, "passwordMatching");
 
     const tokenData = this.createToken(findUser);
     const cookie = this.createCookie(tokenData);
@@ -60,7 +60,7 @@ export class AuthService {
         password: userData.password
       }
     });
-    if (!findUser) throw new HttpException(409, "User doesn't exist");
+    if (!findUser) throw new HttpException(409, "userDoesNotExist");
 
     return findUser;
   }

@@ -16,14 +16,14 @@ export class UserService {
 
   public async findUserById(userId: string): Promise<User> {
     const findUser: User = await this.user.findUnique({ where: { id: userId } });
-    if (!findUser) throw new HttpException(409, "User doesn't exist");
+    if (!findUser) throw new HttpException(409, "userDoesNotExist");
 
     return findUser;
   }
 
   public async createUser(userData: CreateUserDto): Promise<User> {
     const findUser: User = await this.user.findUnique({ where: { email: userData.email } });
-    if (findUser) throw new HttpException(409, `This email ${userData.email} already exists`);
+    if (findUser) throw new HttpException(409, `emailAlreadyExists`);
 
     const hashedPassword = await hash(userData.password, 10);
     const createUserData: User = await this.user.create({ data: { ...userData, password: hashedPassword } });
@@ -32,7 +32,7 @@ export class UserService {
 
   public async updateUser(userId: string, userData: CreateUserDto): Promise<User> {
     const findUser: User = await this.user.findUnique({ where: { id: userId } });
-    if (!findUser) throw new HttpException(409, "User doesn't exist");
+    if (!findUser) throw new HttpException(409, "userDoesNotExist");
 
     const hashedPassword = await hash(userData.password, 10);
     const updateUserData = await this.user.update({ where: { id: userId }, data: { ...userData, password: hashedPassword } });
@@ -41,7 +41,7 @@ export class UserService {
 
   public async deleteUser(userId: string): Promise<User> {
     const findUser: User = await this.user.findUnique({ where: { id: userId } });
-    if (!findUser) throw new HttpException(409, "User doesn't exist");
+    if (!findUser) throw new HttpException(409, "userDoesNotExist");
 
     const deleteUserData = await this.user.delete({ where: { id: userId } });
     return deleteUserData;

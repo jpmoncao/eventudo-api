@@ -11,7 +11,7 @@ export class CategoryController {
         try {
             const findAllCategoriesData: Category[] = await this.category.findAllCategories();
 
-            res.status(200).json({ data: findAllCategoriesData, message: 'findAll' });
+            res.status(200).json({ data: findAllCategoriesData, message: 'findAllCategories' });
         } catch (error) {
             next(error);
         }
@@ -22,14 +22,14 @@ export class CategoryController {
             const categoryId = req.params.id;
 
             if (categoryId.trim() === '')
-                throw new Error('Falta parâmetros');
+                throw new Error('missingParameters');
 
             if (isNaN(Number(categoryId)))
-                throw new Error('Parâmetro inválido');
+                throw new Error('invalidId');
 
             const findCategoryByIdData: Category = await this.category.findCategoryById(Number(categoryId));
 
-            res.status(200).json({ data: findCategoryByIdData, message: 'findCategoryById' });
+            res.status(200).json({ data: findCategoryByIdData, message: 'findCategory' });
         } catch (error) {
             next(error);
         }
